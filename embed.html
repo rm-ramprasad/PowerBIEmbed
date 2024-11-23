@@ -9,16 +9,18 @@
 <body>
   <div id="powerBIContainer" style="width:100%; height:100vh;"></div>
   <script>
+    // Retrieve embed parameters from the URL query string
     const params = new URLSearchParams(window.location.search);
     const embedUrl = params.get('embedUrl');
     const embedToken = params.get('embedToken');
 
     if (embedUrl && embedToken) {
+      // Configuration for embedding the Power BI report
       const config = {
-        type: 'report',
+        type: 'report', // Specify the type of Power BI artifact
         embedUrl: embedUrl,
         accessToken: embedToken,
-        tokenType: 1, // Use Aad token; for Embed token, use 0
+        tokenType: 1, // Use 1 for Aad token; 0 for Embed token
         settings: {
           panes: {
             filters: { visible: false },
@@ -28,11 +30,16 @@
         }
       };
 
+      // Get the Power BI embedding container
       const container = document.getElementById('powerBIContainer');
-      const powerbi = new window.powerbi.Embed(container, config);
+
+      // Embed the Power BI report
+      const powerbi = window.powerbi; // Ensure powerbi-client is loaded
+      powerbi.embed(container, config);
     } else {
-      document.body.innerHTML = '<h3>Error: Missing embed URL, token test v2</h3>';
+      // Error message for missing parameters
+      document.body.innerHTML = '<h3>Error: Missing embed URL or token - test 3.</h3>';
     }
   </script>
 </body>
-</html>
+</html

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Power BI Embed Cors</title>
+  <title>Power BI Embed</title>
 </head>
 <body>
   <iframe 
@@ -19,32 +19,30 @@
     const embedUrl = params.get('embedUrl');
     const embedToken = params.get('embedToken');
 
+    // Debugging: Log parameters
+    console.log("Embed URL:", embedUrl);
+    console.log("Embed Token:", embedToken);
+
     if (embedUrl && embedToken) {
-      // Update the iframe src dynamically
-      const iframe = document.getElementById('powerBIFrame');
-      iframe.src = `${embedUrl}?access_token=${embedToken}`;
+      try {
+        // Update the iframe src dynamically
+        const iframe = document.getElementById('powerBIFrame');
+        iframe.src = `${embedUrl}&access_token=${embedToken}`;
 
-      // Function to send a message to the Power BI iframe
-      function sendMessageToIframe(message) {
-        // Ensure that the iframe is loaded before sending a message
-        iframe.onload = () => {
-          iframe.contentWindow.postMessage(message, embedUrl);
+        // Debugging: Log the iframe src
+        console.log("Iframe Source:", iframe.src);
+
+        // Add error handling if iframe fails to load
+        iframe.onerror = () => {
+          document.body.innerHTML = '<h3>Error: Unable to load Power BI report.</h3>';
         };
+      } catch (error) {
+        console.error("Error setting iframe source:", error);
+        document.body.innerHTML = '<h3>Error: Failed to load Power BI report.</h3>';
       }
-
-      // Example: Sending a message to the iframe (e.g., asking for report data)
-      sendMessageToIframe({ action: 'getReportData' });
-
-      // Listen for messages coming from the iframe
-      window.addEventListener('message', (event) => {
-        // Ensure the message is from the Power BI iframe
-        if (event.origin === embedUrl) {
-          console.log('Received message from iframe:', event.data);
-          // Handle the received data here (e.g., update UI, process data)
-        }
-      });
     } else {
-      document.body.innerHTML = '<h3>Error: Missing embed URL or token</h3>';
+      // Display error if parameters are missing
+      document.body.innerHTML = '<h3>Error: Missing embed URL or token.</h3>';
     }
   </script>
 </body>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Power BI Embed</title>
+  <title>Power BI Embed Cors</title>
 </head>
 <body>
   <iframe 
@@ -12,6 +12,7 @@
     src=""
     allowfullscreen
   ></iframe>
+
   <script>
     // Retrieve embed parameters from the URL query string
     const params = new URLSearchParams(window.location.search);
@@ -22,6 +23,26 @@
       // Update the iframe src dynamically
       const iframe = document.getElementById('powerBIFrame');
       iframe.src = `${embedUrl}?access_token=${embedToken}`;
+
+      // Function to send a message to the Power BI iframe
+      function sendMessageToIframe(message) {
+        // Ensure that the iframe is loaded before sending a message
+        iframe.onload = () => {
+          iframe.contentWindow.postMessage(message, embedUrl);
+        };
+      }
+
+      // Example: Sending a message to the iframe (e.g., asking for report data)
+      sendMessageToIframe({ action: 'getReportData' });
+
+      // Listen for messages coming from the iframe
+      window.addEventListener('message', (event) => {
+        // Ensure the message is from the Power BI iframe
+        if (event.origin === embedUrl) {
+          console.log('Received message from iframe:', event.data);
+          // Handle the received data here (e.g., update UI, process data)
+        }
+      });
     } else {
       document.body.innerHTML = '<h3>Error: Missing embed URL or token</h3>';
     }

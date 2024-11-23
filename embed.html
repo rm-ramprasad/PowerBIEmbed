@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Power BI Embed</title>
+</head>
+<body>
+  <iframe 
+    id="powerBIFrame" 
+    style="width:100%; height:100vh; border:none;"
+    src=""
+    allowfullscreen
+  ></iframe>
+  <script>
+    // Retrieve embed parameters from the URL query string
+    const params = new URLSearchParams(window.location.search);
+    const embedUrl = params.get('embedUrl');
+    const embedToken = params.get('embedToken');
+
+    if (embedUrl && embedToken) {
+      // Update the iframe src dynamically
+      const iframe = document.getElementById('powerBIFrame');
+      iframe.src = `${embedUrl}?access_token=${embedToken}`;
+    } else {
+      document.body.innerHTML = '<h3>Error: Missing embed URL or token</h3>';
+    }
+  </script>
+</body>
+</html>

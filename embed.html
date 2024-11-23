@@ -30,16 +30,14 @@
         }
       };
 
-      // Get the Power BI embedding container
-      const container = document.getElementById('powerBIContainer');
-
       // Embed the Power BI report
-      const powerbi = window.powerbi; // Ensure powerbi-client is loaded
+      const container = document.getElementById('powerBIContainer');
+      const powerbi = window.powerbi;
       powerbi.embed(container, config);
     } else {
       // Error message for missing parameters
-      document.body.innerHTML = '<h3>Error: Missing embed URL or token - test 3.</h3>';
+      document.body.innerHTML = '<h3>Error: Missing embed URL or token - test 4.</h3>';
     }
   </script>
 </body>
-</html
+</html>

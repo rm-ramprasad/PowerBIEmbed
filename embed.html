@@ -13,6 +13,7 @@
     const params = new URLSearchParams(window.location.search);
     const embedUrl = params.get('embedUrl');
     const embedToken = params.get('embedToken');
+    const models = window['powerbi-client'].models;
 
     if (embedUrl && embedToken) {
       // Configuration for embedding the Power BI report
@@ -26,8 +27,8 @@
             filters: { visible: false },
             pageNavigation: { visible: true },
           },
-          layoutType: models.LayoutType.MobilePortrait,
-          navContentPaneEnabled: true
+          navContentPaneEnabled: true,
+          layoutType: models.LayoutType.MobilePortrait
         }
       };
 
